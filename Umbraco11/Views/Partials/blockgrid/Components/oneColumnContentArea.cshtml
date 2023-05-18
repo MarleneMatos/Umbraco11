@@ -1,0 +1,32 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@*
+<div>
+    @await Html.GetBlockGridItemAreasHtmlAsync(Model)
+</div>
+*@
+
+
+@{
+    bool isInBackend = Context.Request.Path.ToString().Contains("umbraco") ? true : false;
+}
+@if (isInBackend)
+{
+    <section>
+        @await Html.GetBlockGridItemAreasHtmlAsync(Model)
+    </section>
+}
+else
+{
+    <div class="relative mb-6 md:mb-6 xl:mb-8 xxl:mb-10">
+        <div class="container mx-auto">
+            <div class="row">
+                <div class="grid grid-cols-1 grid-flow-col gap-4">
+                    @await Html.GetBlockGridItemAreaHtmlAsync(Model, "full")
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,81 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    @{
+        if (Model.HasValue("pageTitle"))
+        {
+            <title>@Model.Value("pageTitle")</title>
+        }
+
+        if (Model.HasValue("seoMetaDescription"))
+        {
+            <meta name="description" content="@Model.Value("seoMetaDescription")">
+        }
+
+        if (Model.GetProperty("keywords") != null)
+        {
+            var tags = Model.Value
+            <IEnumerable<string>>("keywords");
+            String tagOutput = String.Join(", ", tags);
+            <meta name="keywords" content="@tagOutput">
+        }
+    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
+
+    @*Bootstrap*@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+  
+
+    @*Favicon*@
+    <link rel="apple-touch-icon" sizes="180x180" href="/media/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/media/favicon/site.webmanifest">
+
+    @*Recaptcha*@
+    @*
+    <script src="https://www.google.com/recaptcha/api.js?render=@Configuration["AppSettings:Recaptcha:PublicKey"]"></script>
+    <script>
+    grecaptcha.ready(function () {
+    grecaptcha.execute('@Configuration["AppSettings:Recaptcha:PublicKey"]', { action: 'submit' }).then(function (token) {
+    if (document.getElementById("FormVal") != null) document.getElementById("FormVal").value = token;
+    if (document.getElementById("RequestDemoVal") != null) document.getElementById("RequestDemoVal").value = token;
+    if (document.getElementById("ContactAreaRequestDemoVal") != null) document.getElementById("RequestDemoVal").value = token;
+    });
+    });
+    </script>
+    *@
+
+</head>
+<body>
+
+    @await Html.PartialAsync("Template/Header")
+
+
+    <!--
+    <div class="px-4">
+        <div class="flex justify-center items-center bg-white mx-auto max-w-2xl rounded-lg my-16 p-16">
+            <h1 class="text-2xl font-medium">Responsive Navbar with TailwindCSS</h1>
+        </div>
+    </div>
+    -->
+    @RenderBody()
+
+    @await Html.PartialAsync("Template/Footer")
+
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
